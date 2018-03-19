@@ -22,8 +22,6 @@ function refreshTabs(tabs) {
         })
     );
 
-    console.log(tabData);
-
     let tabsHtml = Mustache.render(tpl, {
         tabs: tabData
     });
@@ -58,7 +56,7 @@ function onUpKeyPressed() {
         selectedTab = (selectedTab - 1 + currentTabs.length) % currentTabs.length;
     }
 
-    console.log("Up pressed." + selectedTab);
+    
     refreshTabs(currentTabs);
 }
 
@@ -101,7 +99,7 @@ function onCtrlWPressed() {
 }
 
 function onCtrlShiftWPressed() {
-    console.log("ctrlshift-W");
+    
 
     if (!(selectedTab >= 0 && selectedTab < currentTabs.length)) {
         return;
@@ -111,13 +109,7 @@ function onCtrlShiftWPressed() {
     let otherTabs = Array.from(currentTabs);
     otherTabs.splice(selectedTab, 1);
 
-    console.log(currentTabs);
-    console.log(selectedTab);
-    console.log(otherTabs);
-
     let otherTabIds = otherTabs.map(t => t.id);
-
-    console.log(otherTabIds);
 
     chrome.tabs.remove(otherTabIds);
 
@@ -132,6 +124,10 @@ function onAltShiftWPressed() {
 }
 
 function requery() {
+    setTimeout(_requery, 200);
+}
+
+function _requery() {
     chrome.tabs.query({}, function(tabs) {
         onTabQuery(tabs);
     });
@@ -147,7 +143,7 @@ function main() {
     });
 
     document.addEventListener('keydown', function(ev) {
-        console.log(ev);
+        
         if (ev.keyCode == 38) {
             onUpKeyPressed();
         } else if (ev.keyCode == 40) {
