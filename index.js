@@ -39,7 +39,7 @@ function refreshTabs(tabs) {
 
 function onPatternChanged(pattern) {
     var re = new RegExp(pattern, 'i');
-    filteredTabs = allTabs.filter(tab => re.test(tab.title));
+    filteredTabs = allTabs.filter(tab => (re.test(tab.title) || re.test(tab.url)));
     refreshTabs(filteredTabs);
 }
 
