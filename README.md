@@ -2,7 +2,7 @@
 
 CtrlP Extension for Chrome
 
-![](images/scrshot.png)
+<img src="images/scrshot.png" width="60%">
 
 ## Usage
 
