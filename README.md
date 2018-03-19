@@ -6,7 +6,7 @@ CtrlP Extension for Chrome
 
 ## Usage
 
-Input pattern and use `up` and `down` to move:
+Input pattern (applied to tab titles & URLs) and use `up` & `down` to move among tab items, then:
 
     - Enter         : Open selected tab
     - Ctrl-W        : Close selected Tab
