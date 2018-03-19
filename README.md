@@ -15,4 +15,4 @@ Input pattern and use `up` and `down` to move:
 
 ## TODO
 
-The popup window will not scroll up and down when there are many tabs.
+More comfortable item scroll.

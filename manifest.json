@@ -1,7 +1,7 @@
 {
-    "name": "Tab Closer",
+    "name": "Chrome-ctrlp",
     "version": "1.0",
-    "description": "Close tabs in different ways.",
+    "description": "Ctrlp extension for Chrome.",
     "permissions": [
         "tabs"
     ],

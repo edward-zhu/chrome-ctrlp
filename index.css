@@ -29,7 +29,13 @@ html body {
 }
 
 .item img {
-    padding: 4px;
+    width: 36px;
+    padding: 7px;
+    padding-top: 4px;
+}
+
+.ui.list>.item>.image+.content {
+    padding-left: 0px;
 }
 
 .item .content {
@@ -37,6 +43,7 @@ html body {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    
 }
 
 .item .header {

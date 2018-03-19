@@ -5,13 +5,6 @@ var selectedTab = -1;
 
 var tpl = document.getElementById('tab-item-tmpl').innerHTML.trim();
 
-function trimStr(str, maxlen) {
-    if (str.length <= maxlen) {
-        return str;
-    }
-    return str.substring(0, maxlen + 1) + "...";
-}
-
 function refreshTabs(tabs) {
     let tabData = tabs.map(
         t => ({
@@ -32,6 +25,19 @@ function refreshTabs(tabs) {
         let selectedTabObj = currentTabs[selectedTab];
         let selectedTabDOM = document.getElementById("tab-" + selectedTabObj.index);
         selectedTabDOM.style.backgroundColor = "#efefef";
+
+        /*
+
+        ---------
+
+        */
+
+        let pos = selectedTabDOM.getBoundingClientRect();
+        if (pos.bottom > window.innerHeight) {
+            window.scrollBy(0, pos.bottom - window.innerHeight);
+        } else if (pos.top < 0) {
+            window.scroll(0, 0);
+        }
     }
 
     currentTabs = tabs;
@@ -56,7 +62,6 @@ function onUpKeyPressed() {
         selectedTab = (selectedTab - 1 + currentTabs.length) % currentTabs.length;
     }
 
-    
     refreshTabs(currentTabs);
 }
 
@@ -99,8 +104,6 @@ function onCtrlWPressed() {
 }
 
 function onCtrlShiftWPressed() {
-    
-
     if (!(selectedTab >= 0 && selectedTab < currentTabs.length)) {
         return;
     }
@@ -143,7 +146,6 @@ function main() {
     });
 
     document.addEventListener('keydown', function(ev) {
-        
         if (ev.keyCode == 38) {
             onUpKeyPressed();
         } else if (ev.keyCode == 40) {
