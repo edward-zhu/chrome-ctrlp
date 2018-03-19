@@ -26,12 +26,6 @@ function refreshTabs(tabs) {
         let selectedTabDOM = document.getElementById("tab-" + selectedTabObj.index);
         selectedTabDOM.style.backgroundColor = "#efefef";
 
-        /*
-
-        ---------
-
-        */
-
         let pos = selectedTabDOM.getBoundingClientRect();
         if (pos.bottom > window.innerHeight) {
             window.scrollBy(0, pos.bottom - window.innerHeight);
@@ -109,8 +103,7 @@ function onCtrlShiftWPressed() {
     }
     let selectedTabId = currentTabs[selectedTab].id;
 
-    let otherTabs = Array.from(currentTabs);
-    otherTabs.splice(selectedTab, 1);
+    let otherTabs = allTabs.filter(t => t.id != selectedTabId);
 
     let otherTabIds = otherTabs.map(t => t.id);
 
