@@ -1,0 +1,51 @@
+html {
+    height: 100px;
+}
+
+html body {
+    width: 600px;
+    height: 100px;
+}
+
+#container {
+    padding: 5px;
+    
+}
+
+.item {
+    padding: 2px;
+    padding-top: 6px;
+}
+
+#tab-list {
+    margin-top: 0px;
+}
+
+.ui.list>.item:first-child {
+    padding-top: 6px;
+}
+.ui.list>.item:last-child {
+    padding-bottom: 4px;
+}
+
+.item img {
+    padding: 4px;
+}
+
+.item .content {
+    width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.item .header {
+    width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ui.divider {
+    margin-bottom: 2px;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shimarin Tab Closer</title>
+    
+    <link rel="stylesheet" href="assets/semantic.min.css" />
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="container">
+        <div class="ui segment">
+            <div class="ui fluid input">
+                <input id="pattern" type="text" placeholder="Tab Pattern">
+            </div>
+            <div class="ui divider"></div>
+
+            <div id="tab-list" class="ui relaxed divided list">
+                
+            </div>
+        </div>
+    </div>
+    <script id="tab-item-tmpl" type="text/html">
+        {{#tabs}}
+        <div class="item" id="tab-{{index}}">
+            <img class="ui avatar image" src="{{favIconUrl}}">        
+            <div class="content">
+                <div class="header">{{title}}</div>
+                {{url}}
+            </div>
+        </div>
+        {{/tabs}}
+    </script>
+    <script src="assets/mustache.min.js"></script>
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/semantic.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
