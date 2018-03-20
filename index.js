@@ -1,7 +1,9 @@
 var allTabs = {}
 var currentTabs = {}
-
 var selectedTab = -1;
+
+/** @type {HTMLInputElement} */
+var patternInput = null;
 
 var tpl = document.getElementById('tab-item-tmpl').innerHTML.trim();
 
@@ -21,9 +23,16 @@ function refreshTabs(tabs) {
     let tabList = document.getElementById("tab-list");
     tabList.innerHTML = tabsHtml;
 
-    if (selectedTab >= 0) {
+    currentTabs = tabs;
+
+    if (selectedTab >= 0 && selectedTab < currentTabs.length) {
         let selectedTabObj = currentTabs[selectedTab];
         let selectedTabDOM = document.getElementById("tab-" + selectedTabObj.index);
+
+        if (selectedTabDOM == undefined) {
+            return;
+        }
+
         selectedTabDOM.style.backgroundColor = "#efefef";
 
         let pos = selectedTabDOM.getBoundingClientRect();
@@ -33,8 +42,6 @@ function refreshTabs(tabs) {
             window.scroll(0, 0);
         }
     }
-
-    currentTabs = tabs;
 }
 
 function onPatternChanged(pattern) {
@@ -89,33 +96,25 @@ function onEnterPressed() {
     });
 }
 
-function onCtrlWPressed() {
+function removeTab(id) {
     if (!(selectedTab >= 0 && selectedTab < currentTabs.length)) {
         return;
     }
     let selectedTabId = currentTabs[selectedTab].id;
-
     chrome.tabs.remove(selectedTabId);
 
     requery();
 }
 
-function onCtrlShiftWPressed() {
-    if (!(selectedTab >= 0 && selectedTab < currentTabs.length)) {
-        return;
-    }
-    let selectedTabId = currentTabs[selectedTab].id;
-
-    let otherTabs = allTabs.filter(t => t.id != selectedTabId);
-
+function removeAllOtherTabs(id) {
+    let otherTabs = allTabs.filter(t => t.id != id);
     let otherTabIds = otherTabs.map(t => t.id);
-
     chrome.tabs.remove(otherTabIds);
 
     requery();
 }
 
-function onAltShiftWPressed() {
+function removeAllTabsInResult() {
     let tabsIdToClose = currentTabs.map(t => t.id);
     chrome.tabs.remove(tabsIdToClose);
 
@@ -132,12 +131,37 @@ function _requery() {
     });
 }
 
+function onAltShiftWPressed() {
+    removeAllTabsInResult();
+    patternInput.value = "";
+}
+
+function onCtrlShiftWPressed() {
+    if (!(selectedTab >= 0 && selectedTab < currentTabs.length)) {
+        return;
+    }
+    let selectedTabId = currentTabs[selectedTab].id;
+    removeAllOtherTabs(selectedTabId);
+}
+
+function onCtrlWPressed() {
+    if (!(selectedTab >= 0 && selectedTab < currentTabs.length)) {
+        return;
+    }
+    let selectedTabId = currentTabs[selectedTab].id;
+    removeTab(selectedTabId);
+}
+
 function main() {
     Mustache.parse(tpl);
 
-    let patternInput = document.getElementById("pattern");
+    patternInput = document.getElementById("pattern");
 
     patternInput.addEventListener('input', function(ev) {
+        // TODO: How to avoid this?
+        if (patternInput.value == '„') {
+            patternInput.value = "";
+        }
         onPatternChanged(patternInput.value);
     });
 
