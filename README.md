@@ -16,11 +16,13 @@ Input pattern (applied to tab titles & URLs) and use `up` & `down` to move among
 ### Install
 
 1. `git clone` this repo
-2. drag-n-drop the repo folder to [Chrome Extension Settings](chrome://extensions)
+2. drag-n-drop the repo folder to Chrome Extension Settings (chrome://extensions)
 
 ### Setting open shortcut
 
-Goto [Chrome Extension Shortcuts Settings](chrome://extensions/shortcuts) and set shortcut (e.g. `Ctrl+P`) for this extension.
+The default shortcut to open this extension is `Ctrl+P` for MacOS (credit: @GarfieldZHU). For other cases:
+
+Goto Chrome Extension Shortcuts Settings (chrome://extensions/shortcuts) and set shortcut (e.g. `Ctrl+P`) for this extension.
 
 ## TODO
 
