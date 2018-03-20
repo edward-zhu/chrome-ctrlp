@@ -73,16 +73,19 @@ function onEnterPressed() {
     if (!(selectedTab >= 0 && selectedTab < currentTabs.length)) {
         return;
     }
+
     let selectedTabId = currentTabs[selectedTab].id;
 
     chrome.tabs.query({}, function(tabs) {
+        chrome.tabs.update(selectedTabId, {"highlighted" : true});
+
         for (let tab of tabs) {
             if (tab.id != selectedTabId) {
-                chrome.tabs.update(tab.id, {"highlighted" : false});
-            } else {
-                chrome.tabs.update(tab.id, {"highlighted" : true});
+                chrome.tabs.update(tab.id, {"highlighted" : false, "pinned" : false});
             }
         }
+
+        window.close();
     });
 }
 
