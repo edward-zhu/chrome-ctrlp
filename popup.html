@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="container">
-        <div class="ui segment">
+        <div id="tab-segment" class="ui segment">
             <div class="ui fluid input">
                 <input id="pattern" type="text" placeholder="Tab Pattern (matching title / URL)">
             </div>
@@ -24,7 +24,7 @@
     </div>
     <script id="tab-item-tmpl" type="text/html">
         {{#tabs}}
-        <div class="item" id="tab-{{index}}">
+        <div class="item" id="tab-{{id}}">
             <img class="ui image" src="{{favIconUrl}}">        
             <div class="content">
                 <div class="header">{{title}}</div>

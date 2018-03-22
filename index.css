@@ -31,7 +31,7 @@ html body {
 .item img {
     width: 36px;
     padding: 7px;
-    padding-top: 4px;
+    padding-top: 6px;
 }
 
 .ui.list>.item>.image+.content {

@@ -3,6 +3,7 @@
     "version": "1.0",
     "description": "Ctrlp extension for Chrome.",
     "permissions": [
+        "sessions",
         "tabs"
     ],
     "browser_action": {

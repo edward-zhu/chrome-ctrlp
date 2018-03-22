@@ -13,6 +13,12 @@ Input pattern (applied to tab titles & URLs) and use `up` & `down` to move among
     - Ctrl-Shift-W  : Close tabs other than the selected tab
     - Alt-Shift-W   : Close all tabs in the result
 
+### Command
+
+If you type:
+
+    - old: <num>   : return the oldest <num> tabs
+
 ### Install
 
 1. `git clone` this repo
@@ -20,7 +26,7 @@ Input pattern (applied to tab titles & URLs) and use `up` & `down` to move among
 
 ### Setting open shortcut
 
-The default shortcut to open this extension is `Ctrl+P` for MacOS (credit: @GarfieldZHU). For other cases:
+The default shortcut to open this extension is `Ctrl+P` (credit: @GarfieldZHU). To change:
 
 Goto Chrome Extension Shortcuts Settings (chrome://extensions/shortcuts) and set shortcut (e.g. `Ctrl+P`) for this extension.
 

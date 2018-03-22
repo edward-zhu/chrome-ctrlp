@@ -5,11 +5,17 @@ var selectedTab = -1;
 /** @type {HTMLInputElement} */
 var patternInput = null;
 
+var sortedBy = 'id';
+
 var tpl = document.getElementById('tab-item-tmpl').innerHTML.trim();
+var tabSegment = document.getElementById('tab-segment');
 
 function refreshTabs(tabs) {
+    tabs.sort((a, b) => (a[sortedBy] - b[sortedBy]));
+
     let tabData = tabs.map(
         t => ({
+            id : t.id,
             index : t.index,
             title : t.title,
             url : t.url,
@@ -27,7 +33,7 @@ function refreshTabs(tabs) {
 
     if (selectedTab >= 0 && selectedTab < currentTabs.length) {
         let selectedTabObj = currentTabs[selectedTab];
-        let selectedTabDOM = document.getElementById("tab-" + selectedTabObj.index);
+        let selectedTabDOM = document.getElementById("tab-" + selectedTabObj.id);
 
         if (selectedTabDOM == undefined) {
             return;
@@ -38,15 +44,32 @@ function refreshTabs(tabs) {
         let pos = selectedTabDOM.getBoundingClientRect();
         if (pos.bottom > window.innerHeight) {
             window.scrollBy(0, pos.bottom - window.innerHeight);
-        } else if (pos.top < 0) {
+        } else if (pos.top < 10) {
             window.scroll(0, 0);
         }
     }
 }
 
+var lastTabsPattern = new RegExp(/old:[ ]*(\d+)/, 'i');
+
+/**
+ * 
+ * @param {String} pattern 
+ */
 function onPatternChanged(pattern) {
-    var re = new RegExp(pattern, 'i');
-    filteredTabs = allTabs.filter(tab => (re.test(tab.title) || re.test(tab.url)));
+    let filteredTabs = {}
+
+    let lastTabsPatternMatches = lastTabsPattern.exec(pattern);
+    if (lastTabsPatternMatches != null) {
+        let num = parseInt(lastTabsPatternMatches[1]);
+        tabs = Array.from(allTabs);
+        tabs.sort((a, b) => (a.id - b.id));
+        filteredTabs = tabs.slice(0, Math.min(allTabs.length, num));
+    } else {
+        var re = new RegExp(pattern, 'i');
+        filteredTabs = allTabs.filter(tab => (re.test(tab.title) || re.test(tab.url)));
+    }
+    
     refreshTabs(filteredTabs);
 }
 
@@ -152,6 +175,15 @@ function onCtrlWPressed() {
     removeTab(selectedTabId);
 }
 
+function onToggleSortMode() {
+    if (sortedBy == 'id') {
+        sortedBy = 'index';
+    } else {
+        sortedBy = 'id';
+    }
+    refreshTabs(currentTabs);
+}
+
 function main() {
     Mustache.parse(tpl);
 
@@ -168,6 +200,8 @@ function main() {
     document.addEventListener('keydown', function(ev) {
         if (ev.keyCode == 38) {
             onUpKeyPressed();
+        } else if ((ev.keyCode == 39 || ev.keyCode == 37) && ev.shiftKey) {
+            // onToggleSortMode();
         } else if (ev.keyCode == 40) {
             onDownKeyPressed();
         } else if (ev.keyCode == 13) {
