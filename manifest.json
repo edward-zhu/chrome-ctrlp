@@ -13,7 +13,9 @@
     "commands": {
         "_execute_browser_action": {
             "suggested_key": {
-                "default": "MacCtrl+P"
+                "default": "Ctrl+P",
+                "windows": "Ctrl+P",
+                "mac": "MacCtrl+P"
             }
         }
     },
