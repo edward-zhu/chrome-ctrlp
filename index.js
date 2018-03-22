@@ -260,14 +260,14 @@ function main() {
     });
 
     document.addEventListener('keydown', function(ev) {
-        if (ev.keyCode == 38) {
+        if (ev.keyCode == 38  || (ev.keyCode == 75 && ev.ctrlKey)) {
             onUpKeyPressed();
         } else if (ev.keyCode == 8 || ev.keyCode == 46) {
             console.log(ev);
             onBackspacePressed();
         } else if ((ev.keyCode == 39 || ev.keyCode == 37) && ev.shiftKey) {
             // onToggleSortMode();
-        } else if (ev.keyCode == 40) {
+        } else if (ev.keyCode == 40 || (ev.keyCode == 74 && ev.ctrlKey)) {
             onDownKeyPressed();
         } else if (ev.keyCode == 13) {
             onEnterPressed();
