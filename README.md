@@ -2,7 +2,7 @@
 
 CtrlP Extension for Chrome
 
-<img src="images/scrshot.png" width="60%">
+<img src="images/scrshot.gif" width="80%">
 
 ## Usage
 
