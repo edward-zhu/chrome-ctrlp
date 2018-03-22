@@ -12,6 +12,8 @@ var tabSegment = document.getElementById('tab-segment');
 var inputLabel = document.getElementById('input-label');
 var inputGroup = inputLabel.parentElement;
 
+var currentPattern = "";
+
 /**
  * refersh tabs result
  * 
@@ -64,6 +66,8 @@ var lastTabsPattern = new RegExp(/old:[ ]*(\d*)/, 'i');
  * @param {String} pattern 
  */
 function onPatternChanged(pattern) {
+    currentPattern = pattern;
+
     let filteredTabs = {}
 
     let lastTabsPatternMatches = lastTabsPattern.exec(pattern);
@@ -87,7 +91,12 @@ function onPatternChanged(pattern) {
 function onTabQuery(tabs) {
     allTabs = tabs;
     currentTabs = allTabs;
-    refreshTabs(allTabs);
+
+    if (currentPattern != "") {
+        onPatternChanged(currentPattern);
+    } else {
+        refreshTabs(allTabs);
+    }
 }
 
 function onUpKeyPressed() {
