@@ -18,6 +18,7 @@ Input pattern (applied to tab titles & URLs) and use `up` & `down` (for vim user
 If you type:
 
     - old: <num>   : return the oldest <num> tabs
+    - new: <num>   : return the newest <num> tabs
 
 ### Install
 

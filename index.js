@@ -14,13 +14,52 @@ var inputGroup = inputLabel.parentElement;
 
 var currentPattern = "";
 
+var currentCommand = "";
+var commands = {
+    "old" : {
+        "re" : new RegExp(/old:[ ]*(\d*)/, 'i'),
+        "label" : "oldest",
+        "filter" : (allTabs, matches) => {
+            
+            let num = parseInt(matches[1]);
+            tabs = Array.from(allTabs);
+            tabs.sort((a, b) => (a.id - b.id));
+
+            
+            filteredTabs = tabs.slice(0, Math.min(allTabs.length, num || 0));
+
+
+            console.log(filteredTabs);
+
+            return [filteredTabs, matches[1] || ""];
+        }
+    },
+    "new" : {
+        "re" : new RegExp(/new:[ ]*(\d*)/, 'i'),
+        "label" : "newest",
+        "filter" : (allTabs, matches) => {
+            let num = parseInt(matches[1]);
+            tabs = Array.from(allTabs);
+            tabs.sort((a, b) => (b.id - a.id));
+            filteredTabs = tabs.slice(0, Math.min(allTabs.length, num || 0));
+
+            return [filteredTabs, matches[1] || ""];
+        }
+    }
+};
+
 /**
  * refersh tabs result
  * 
  * @param {Array} tabs result tabs to show
+ * @param {Boolean} sorted sort result
  */
-function refreshTabs(tabs) {
-    tabs.sort((a, b) => (a[sortedBy] - b[sortedBy]));
+function refreshTabs(tabs, sorted) {
+    sorted = (sorted === undefined) ? true : sorted;
+
+    if (sorted) {
+        tabs.sort((a, b) => (a[sortedBy] - b[sortedBy]));
+    }
 
     let tabData = tabs.map(
         t => ({
@@ -61,6 +100,33 @@ function refreshTabs(tabs) {
 
 var lastTabsPattern = new RegExp(/old:[ ]*(\d*)/, 'i');
 
+/** @returns chrome.tabs.Tab[] */
+function getFilteredTabs(pattern) {
+    let filteredTabs = [];
+
+    for (let key in commands) {
+        let cmd = commands[key];
+        let matches = cmd.re.exec(pattern);
+
+        console.log(matches);
+
+        if (matches != null) {
+            currentCommand = key;
+            showInputLabel(cmd.label);
+            let [tabs, prompt] =  cmd.filter(allTabs, matches);
+
+            patternInput.value = prompt;
+            return tabs;
+        }
+    }
+
+    var re = new RegExp(pattern, 'i');
+    filteredTabs = allTabs.filter(tab => (re.test(tab.title) || re.test(tab.url)));
+    hideInputLabel();
+
+    return filteredTabs;
+}
+
 /**
  * 
  * @param {String} pattern 
@@ -68,22 +134,7 @@ var lastTabsPattern = new RegExp(/old:[ ]*(\d*)/, 'i');
 function onPatternChanged(pattern) {
     currentPattern = pattern;
 
-    let filteredTabs = {}
-
-    let lastTabsPatternMatches = lastTabsPattern.exec(pattern);
-    if (lastTabsPatternMatches != null) {
-        let num = parseInt(lastTabsPatternMatches[1]);
-        tabs = Array.from(allTabs);
-        tabs.sort((a, b) => (a.id - b.id));
-        filteredTabs = tabs.slice(0, Math.min(allTabs.length, num || 0));
-
-        patternInput.value = lastTabsPatternMatches[1] || "";
-        showInputLabel("oldest");
-    } else {
-        var re = new RegExp(pattern, 'i');
-        filteredTabs = allTabs.filter(tab => (re.test(tab.title) || re.test(tab.url)));
-        hideInputLabel();
-    }
+    let filteredTabs = getFilteredTabs(pattern);
 
     refreshTabs(filteredTabs);
 }
@@ -254,7 +305,7 @@ function main() {
 
         let pattern = patternInput.value;
         if (inputLabelIsOn()) {
-            pattern = "old:" + pattern;
+            pattern = currentCommand + ":" + pattern;
         }
         onPatternChanged(pattern);
     });
