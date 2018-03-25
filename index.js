@@ -28,9 +28,6 @@ var commands = {
             
             filteredTabs = tabs.slice(0, Math.min(allTabs.length, num || 0));
 
-
-            console.log(filteredTabs);
-
             return [filteredTabs, matches[1] || ""];
         }
     },
@@ -107,8 +104,6 @@ function getFilteredTabs(pattern) {
     for (let key in commands) {
         let cmd = commands[key];
         let matches = cmd.re.exec(pattern);
-
-        console.log(matches);
 
         if (matches != null) {
             currentCommand = key;
@@ -314,7 +309,6 @@ function main() {
         if (ev.keyCode == 38  || (ev.keyCode == 75 && ev.ctrlKey)) {
             onUpKeyPressed();
         } else if (ev.keyCode == 8 || ev.keyCode == 46) {
-            console.log(ev);
             onBackspacePressed();
         } else if ((ev.keyCode == 39 || ev.keyCode == 37) && ev.shiftKey) {
             // onToggleSortMode();
